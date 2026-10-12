@@ -1,0 +1,320 @@
+:root {
+  /* Rich Artisan Camel Palette */
+  --camel-50: #fbf8f3;
+  --camel-100: #f5ece0;
+  --camel-200: #ecdcc8;
+  --camel-300: #dfc8ab;
+  --camel-400: #ceaf86;
+  --camel-500: #b88d57;  /* Primary Warm Camel */
+  --camel-600: #a37541;  /* Rich Saddle */
+  --camel-700: #885b2e;  /* Deep Caramel */
+  --camel-800: #69421f;  /* Dark Mocha */
+  --camel-900: #3a2210;  /* Espresso / Leather */
+
+  /* Neutral Background & Surface Tokens */
+  --surface-base: #f7f3ec;
+  --surface-card: #ffffff;
+  --surface-card-subtle: #faf6f0;
+  --surface-elevated: #fcfaf6;
+  --surface-highlight: #fdfaf5;
+  --border-light: #ece0d1;
+  --border-medium: #dacab6;
+  --border-strong: #c2ad94;
+  --border-focus: #b88d57;
+
+  /* Typography */
+  --text-main: #2e1c0e;
+  --text-muted: #6b5543;
+  --text-dim: #98806c;
+  --text-inverse: #faf6f0;
+
+  /* Status Colors */
+  --status-purchase: #2b7041;
+  --status-purchase-bg: #eaf5ed;
+  --status-purchase-border: #a2d6af;
+  
+  --status-no-purchase: #a3382c;
+  --status-no-purchase-bg: #fdedeb;
+  --status-no-purchase-border: #f2aba2;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 3px rgba(58, 34, 16, 0.05);
+  --shadow-md: 0 4px 16px -2px rgba(58, 34, 16, 0.07), 0 2px 6px -1px rgba(58, 34, 16, 0.04);
+  --shadow-lg: 0 12px 32px -4px rgba(58, 34, 16, 0.1), 0 4px 12px -2px rgba(58, 34, 16, 0.05);
+
+  --radius-xs: 4px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 18px;
+  --radius-xl: 26px;
+
+  --font-serif: var(--font-serif), 'Playfair Display', Georgia, serif;
+  --font-sans: var(--font-sans), 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  min-height: 100%;
+  background-color: var(--surface-base);
+  color: var(--text-main);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Background warm ambience */
+body {
+  background-image: 
+    radial-gradient(ellipse at 10% 8%, rgba(206, 175, 134, 0.22) 0%, transparent 45%),
+    radial-gradient(ellipse at 90% 45%, rgba(184, 141, 87, 0.15) 0%, transparent 40%),
+    radial-gradient(ellipse at 30% 90%, rgba(223, 200, 171, 0.18) 0%, transparent 50%),
+    linear-gradient(180deg, #fbf8f3 0%, #f7f3ec 50%, #f3ebe0 100%);
+  background-attachment: fixed;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+input, select, textarea {
+  font-family: inherit;
+}
+
+/* Typography Utilities */
+.serif-heading {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  color: var(--camel-900);
+  letter-spacing: -0.015em;
+}
+
+.camel-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 13px;
+  border-radius: 999px;
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  background-color: var(--camel-100);
+  color: var(--camel-800);
+  border: 1px solid var(--camel-300);
+}
+
+/* Base Container */
+.container {
+  width: 100%;
+  max-width: 1220px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 24px;
+  padding-right: 24px;
+}
+
+/* Buttons */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: linear-gradient(135deg, var(--camel-600) 0%, var(--camel-700) 100%);
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 0.95rem;
+  padding: 12px 24px;
+  border-radius: var(--radius-md);
+  box-shadow: 0 4px 14px rgba(136, 91, 46, 0.28);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  border: 1px solid var(--camel-800);
+}
+
+.btn-primary:hover {
+  background: linear-gradient(135deg, var(--camel-500) 0%, var(--camel-600) 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(136, 91, 46, 0.38);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+}
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: var(--surface-card);
+  color: var(--camel-900);
+  font-weight: 600;
+  font-size: 0.92rem;
+  padding: 10px 20px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-medium);
+  box-shadow: var(--shadow-sm);
+  transition: all 0.2s ease;
+}
+
+.btn-secondary:hover {
+  background: var(--camel-100);
+  border-color: var(--camel-400);
+  color: var(--camel-800);
+  transform: translateY(-1px);
+}
+
+/* Form Styles */
+.form-card {
+  background: var(--surface-card);
+  border: 1px solid var(--border-medium);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-lg);
+  padding: 40px;
+  position: relative;
+}
+
+/* Sub-card container inside form */
+.form-subcard {
+  background: var(--surface-card-subtle);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-lg);
+  padding: 22px;
+  transition: all 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  justifyContent: space-between;
+}
+
+.form-subcard:hover {
+  border-color: var(--camel-300);
+  background-color: #ffffff;
+  box-shadow: var(--shadow-sm);
+}
+
+/* Form input base */
+.form-input-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.form-input, .form-select {
+  width: 100%;
+  height: 44px;
+  padding: 8px 14px;
+  background-color: #ffffff;
+  border: 1.5px solid var(--border-medium);
+  border-radius: var(--radius-sm);
+  color: var(--text-main);
+  font-size: 0.92rem;
+  font-weight: 500;
+  transition: all 0.15s ease;
+}
+
+.form-input:focus, .form-select:focus {
+  outline: none;
+  border-color: var(--camel-500);
+  background-color: #ffffff;
+  box-shadow: 0 0 0 3px rgba(184, 141, 87, 0.18);
+}
+
+.form-input-with-suffix {
+  padding-right: 52px;
+}
+
+.form-input-suffix {
+  position: absolute;
+  right: 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-dim);
+  pointer-events: none;
+  background-color: var(--camel-50);
+  padding: 2px 6px;
+  border-radius: 4px;
+  border: 1px solid var(--border-light);
+}
+
+.form-input-with-prefix {
+  padding-left: 28px;
+}
+
+.form-input-prefix {
+  position: absolute;
+  left: 12px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--camel-600);
+  pointer-events: none;
+}
+
+/* Segmented Control for Weekday/Weekend */
+.segmented-control {
+  display: flex;
+  background: var(--camel-100);
+  border: 1.5px solid var(--border-medium);
+  border-radius: var(--radius-sm);
+  padding: 3px;
+  height: 44px;
+  width: 100%;
+}
+
+.segmented-option {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.segmented-option.active {
+  background: #ffffff;
+  color: var(--camel-900);
+  box-shadow: 0 2px 6px rgba(58, 34, 16, 0.12);
+  border: 1px solid var(--camel-300);
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.4s ease-out forwards;
+}
+
+/* Custom Scrollbar in Camel Tones */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--surface-base);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--camel-300);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--camel-400);
+}
