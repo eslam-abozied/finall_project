@@ -8,39 +8,51 @@ export async function POST(req: NextRequest) {
     // 1. Explicit env var (e.g. deployed Vercel Python URL)
     // 2. Default local FastAPI port 8000
     const backendBase = process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000";
-    const endpoint = `${backendBase.replace(/\/$/, "")}/api/predict`;
+    const cleanBase = backendBase.replace(/\/$/, "");
+    const candidateEndpoints = [
+      `${cleanBase}/api/predict`,
+      `${cleanBase}/predict`
+    ];
 
-    const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 8000);
+    let lastError = "";
+    let succeeded = false;
 
-    try {
-      const response = await fetch(endpoint, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-        body: JSON.stringify(body),
-        signal: controller.signal,
-      });
-      clearTimeout(timeout);
+    for (const endpoint of candidateEndpoints) {
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), 8000);
 
-      if (!response.ok) {
-        const errorText = await response.text();
-        return NextResponse.json(
-          { error: `Backend responded with ${response.status}: ${errorText}` },
-          { status: response.status }
-        );
+      try {
+        const response = await fetch(endpoint, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+          body: JSON.stringify(body),
+          signal: controller.signal,
+        });
+        clearTimeout(timeout);
+
+        if (response.ok) {
+          const data = await response.json();
+          return NextResponse.json(data);
+        } else if (response.status === 404) {
+          lastError = `404 Not Found at ${endpoint}`;
+          continue;
+        } else {
+          const errorText = await response.text();
+          return NextResponse.json(
+            { error: `Backend responded with ${response.status}: ${errorText}` },
+            { status: response.status }
+          );
+        }
+      } catch (networkError: unknown) {
+        clearTimeout(timeout);
+        lastError = networkError instanceof Error ? networkError.message : String(networkError);
       }
+    }
 
-      const data = await response.json();
-      return NextResponse.json(data);
-    } catch (networkError: unknown) {
-      clearTimeout(timeout);
-      // Fallback: If local backend server is not running during front-only preview,
-      // return a calculated heuristic response matching the Random Forest behavior
-      const errMessage = networkError instanceof Error ? networkError.message : String(networkError);
-      console.warn("Could not reach Python backend at", endpoint, ":", errMessage);
+    console.warn("Could not reach Python backend:", lastError);
 
       // Lightweight client-side fallback inference
       const pv = Number(body.PageValues || 0);
@@ -82,7 +94,6 @@ export async function POST(req: NextRequest) {
         model_name: "Random Forest Classifier (Ensemble Pipeline)",
         _fallback_mode: true
       });
-    }
   } catch (error: unknown) {
     const msg = error instanceof Error ? error.message : "Internal error";
     return NextResponse.json({ error: msg }, { status: 500 });

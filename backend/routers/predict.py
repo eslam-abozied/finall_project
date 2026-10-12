@@ -3,7 +3,7 @@ from schemas.prediction import ShopperFeatures, PredictionResponse
 from services.predictor import predictor_service
 from typing import Dict, Any, List
 
-router = APIRouter(prefix="/api", tags=["Prediction"])
+router = APIRouter(tags=["Prediction"])
 
 @router.get("/health")
 def health_check() -> Dict[str, str]:
